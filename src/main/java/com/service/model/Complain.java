@@ -1,10 +1,7 @@
 package com.service.model;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 public class Complain {
-    private String id;
+    private String comId;
     private String userId;
     private String subject;
     private String description;
@@ -15,7 +12,7 @@ public class Complain {
     public Complain() {
     }
     public Complain(String id , String userId, String subject,String description, String status, String remarks, String createdAt) {
-        this.id = id;
+        this.comId = id;
         this.userId = userId;
         this.subject = subject;
         this.description = description;
@@ -41,12 +38,12 @@ public class Complain {
         this.description = description;
     }
 
-    public String getId() {
-        return id;
+    public String getComId() {
+        return comId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setComId(String comId) {
+        this.comId = comId;
     }
 
     public String getRemarks() {

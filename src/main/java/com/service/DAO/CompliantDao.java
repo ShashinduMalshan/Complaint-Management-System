@@ -42,7 +42,7 @@ public class CompliantDao {
                 Complain complain = new Complain();
                 complain.setCreatedAt(rs.getString("created_at"));
                 complain.setDescription(rs.getString("description"));
-                complain.setId(rs.getString("id"));
+                complain.setComId(rs.getString("comId"));
                 complain.setRemarks(rs.getString("remarks"));
                 complain.setStatus(rs.getString("status"));
                 complain.setSubject(rs.getString("subject"));
@@ -90,7 +90,7 @@ public class CompliantDao {
                 ps.setString(4, complain.getStatus());
                 ps.setString(5, complain.getRemarks());
                 ps.setTimestamp(6, Timestamp.valueOf(LocalDateTime.now())); // updated time
-                ps.setString(7, complain.getId());
+                ps.setString(7, complain.getComId());
 
 
                 return ps.executeUpdate() > 0;

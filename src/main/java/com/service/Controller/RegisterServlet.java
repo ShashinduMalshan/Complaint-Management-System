@@ -33,7 +33,7 @@ public class RegisterServlet extends HttpServlet {
         } else {
             response.getWriter().println("<h3>Registration failed!</h3>");
         }
-        response.getWriter().println("<a href='saveUser.jsp'>Back</a>");
+        response.getWriter().println("<a href='Register.jsp'>Back</a>");
     }
 
     @Override

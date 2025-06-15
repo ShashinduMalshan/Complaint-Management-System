@@ -26,8 +26,7 @@
     <input type="hidden" name="status" value="Pending">
     <input type="hidden" name="remarks" value="">
 
-    <input type="submit" value="Submit Complaint">
-     <button type="submit" name="action" value="create">Add</button>
+    <button type="submit" name="action" value="create">Add</button>
     <button type="submit" name="action" value="update">Update</button>
     <button type="submit" name="action" value="delete" onclick="return confirm('Are you sure to delete?');">Delete</button>
 
@@ -48,8 +47,8 @@
             for (Complain c : list) {
     %>
  <tr style="cursor:pointer;"
-        onclick="fillForm('<%= c.getId() %>','<%= c.getUserId() %>','<%= c.getSubject() %>','<%= c.getDescription() %>','<%= c.getStatus() %>','<%= c.getRemarks() %>')">
-        <td><%= c.getId() %></td>
+        onclick="fillForm('<%= c.getComId() %>','<%= c.getUserId() %>','<%= c.getSubject() %>','<%= c.getDescription() %>','<%= c.getStatus() %>','<%= c.getRemarks() %>')">
+        <td><%= c.getComId() %></td>
         <td><%= c.getUserId() %></td>
         <td><%= c.getSubject() %></td>
         <td><%= c.getDescription() %></td>

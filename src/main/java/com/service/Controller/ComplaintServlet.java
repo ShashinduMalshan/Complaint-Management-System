@@ -73,6 +73,7 @@ public class ComplaintServlet extends HttpServlet {
         }
             System.out.println("saved");
 
+
     }
 
 
@@ -97,7 +98,6 @@ public class ComplaintServlet extends HttpServlet {
         }
 
     }
-
 
 
     public void deleteComplain(HttpServletRequest req, HttpServletResponse response) throws IOException {
