@@ -64,10 +64,10 @@ public class ComplaintServlet extends HttpServlet {
         Complain complain = new Complain(id ,userId,subject, description, "pending", "none","Not Work");
 
         boolean result = complainDao.saveCompliant(complain);
-        response.setContentType("text/html");
+            response.setContentType("text/html");
 
         if (result) {
-            System.out.println("saved");
+            response.getWriter().println("<script>alert('Complaint saved successfully!'); window.location.href='submitComplaint';</script>");
         } else {
             response.getWriter().println("<h3>complain failed!</h3>");
         }

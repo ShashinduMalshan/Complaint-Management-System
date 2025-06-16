@@ -29,7 +29,7 @@ public class login extends HttpServlet {
             System.out.println(result);
             if (result) {
                 if ( role.equals("employee") ){
-                    resp.sendRedirect("Complain.jsp");
+                    resp.sendRedirect("submitComplaint");
                 }else if ( role.equals("admin") ){
                     resp.sendRedirect("Admin.jsp");
                 }

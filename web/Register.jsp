@@ -248,13 +248,6 @@ body {
         %>
 
         <form action="register" method="post">
-            <div class="form-group">
-                <label for="userId">
-                    <span class="icon id-icon"></span>
-                    User ID <span class="required">*</span>
-                </label>
-                <input type="text" id="userId" name="userId" class="form-control" required placeholder="Enter your user ID">
-            </div>
 
             <div class="form-group">
                 <label for="name">
