@@ -7,6 +7,7 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class LoginDao {
@@ -42,5 +43,25 @@ public class LoginDao {
                 return false;
             }
         }
+
+
+    public int getUserId(String name, String password, String role) throws SQLException {
+        String sql = "SELECT id FROM users WHERE name = ? AND password = ? AND role = ?";
+
+        Connection connection = dataSource.getConnection();
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ps.setString(1, name);
+        ps.setString(2, password);
+        ps.setString(3, role);
+
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            int userId = rs.getInt("id");
+            return userId;
+        }
+
+        return 0;
+    }
 
 }

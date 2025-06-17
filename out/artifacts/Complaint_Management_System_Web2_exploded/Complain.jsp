@@ -3,7 +3,7 @@
   User: shasidu
   Date: 2025-06-16
   Time: 00:45
-  Enhanced UI version for Submit Complaint with Scrollable Table and Non-Transparent Table Header
+  Enhanced UI version for Submit Complaint with Scrollable Table, Non-Transparent Table Header, ID/Username in Same Row, and Logout Button
 --%>
 <%@ page import="com.service.model.Complain" %>
 <%@ page import="java.util.List" %>
@@ -53,6 +53,7 @@
         .header {
             text-align: center;
             margin-bottom: 2rem;
+            position: relative;
         }
 
         .header h1 {
@@ -68,9 +69,39 @@
             font-size: 0.9rem;
         }
 
+        .logout-btn {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 0.5rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+        }
+
+
+
+
+
         .form-group {
             margin-bottom: 1.5rem;
             position: relative;
+        }
+
+        .flex-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .flex-group .form-group {
+            flex: 1;
+            min-width: 200px;
         }
 
         .form-group label {
@@ -173,14 +204,14 @@
             max-width: 1000px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             animation: fadeIn 0.8s ease-out;
-            overflow-x: auto; /* Enable horizontal scrolling */
-            max-height: 500px; /* Set max height for vertical scrolling */
-            overflow-y: auto; /* Enable vertical scrolling */
+            overflow-x: auto;
+            max-height: 500px;
+            overflow-y: auto;
         }
 
         table {
             width: 100%;
-            min-width: 800px; /* Ensure table is wide enough to trigger horizontal scroll if needed */
+            min-width: 800px;
             border-collapse: collapse;
             color: #fff;
         }
@@ -192,18 +223,18 @@
         }
 
         th {
-            background: #2c3e50; /* Solid background for header */
+            background: #2c3e50;
             font-weight: 600;
             font-size: 0.9rem;
-            position: sticky; /* Make header sticky */
-            top: 0; /* Stick to top of container */
-            z-index: 1; /* Ensure header stays above content */
+            position: sticky;
+            top: 0;
+            z-index: 1;
         }
 
         tr {
             cursor: pointer;
             transition: background 0.3s ease;
-            background: none; /* No transparent background for body rows */
+            background: none;
         }
 
         tr:hover {
@@ -222,7 +253,7 @@
         }
 
         .user-icon {
-            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iI2ZmZmZmZiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDEyQzE0LjIwOTEgMTIgMTYgMTAuMjA5MSAxNiA4QzE2IDUuNzkwODYgMTQuMjA5MSA0IDEyIDRDOS43OTA4NiA0IDggNS43OTA4NiA4IDhDOCAxMC4yMDkxIDkuNzkwODYgMTIgMTIgMTJaIiBmaWxsPSIjZmZmZmZmIi8+CjxwYXRoIGQ9Ik0xMiAxNEM5LjMzIDEzLjk5IDcgMTYuMzIgNyAxOVYyMEg3QzEwLjMzIDIwIDEzLjY3IDIwIDE3IDIwVjE5QzE3IDE2LjMzIDE0LjY3IDE0IDE0LjAxIDE0QzEzLjM0IDE0IDEyLjY3IDE0IDEyIDE0WiIgZmlsbD0iI2ZmZmZmZiIvPgo8L3N2Zz4K');
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iI2ZmZmZmZiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDEyQzE0LjIwOTEgMTIgMTYgMTAuMjA5MSAxNiA4QzE2IDUuNzkwODYgMTQuMjA5MSA0IDEyIDRDOS43OTA4NiA0IDggNS43OTA4NiA4IDhDOCAxMC4yMDkxIDkuNzkwODYgMTIgMTIgMTJaIiBmaWxsPSIjZmZmZmZmIi8+CjxwYXRoIGQ9Ik0xMiAxNEM5LjMzIDEzLjk5IDcgMTYuMzIgNyAxOVYyMEg3QzEwLjMzIDIwIDEzLjY3IDIwIDE3IDIwVjE5QzE3IDE2LjMzIDE0LjY3IDE0IDE0LjAxIDE0QzEzLjMzIDE0IDEyLjY3IDE0IDEyIDE0WiIgZmlsbD0iI2ZmZmZmZiIvPgo8L3N2Zz4K');
         }
 
         .subject-icon {
@@ -269,6 +300,16 @@
                 padding: 0.8rem;
                 font-size: 0.85rem;
             }
+
+            .flex-group {
+                flex-direction: column;
+            }
+
+            .logout-btn {
+                position: static;
+                width: 100%;
+                margin-bottom: 1rem;
+            }
         }
     </style>
 </head>
@@ -277,17 +318,33 @@
         <div class="header">
             <h1>Submit a Complaint</h1>
             <p>File a new complaint or manage existing ones</p>
+            <button class="logout-btn" onclick="window.location.href='LoginPage.jsp'">Logout</button>
         </div>
+        <%
+            String userId = request.getParameter("id");
+            String username = request.getParameter("name");
+        %>
 
         <form method="post" action="submitComplaint">
             <input type="hidden" id="id" name="id">
+            <input type="hidden" id="status" name="status">
+            <input type="hidden" id="remarks" name="remarks">
 
-            <div class="form-group">
-                <label for="userId">
-                    <span class="icon user-icon"></span>
-                    User ID <span class="required">*</span>
-                </label>
-                <input type="text" id="userId" name="userId" class="form-control" required placeholder="Enter your user ID">
+            <div class="flex-group">
+                <div class="form-group">
+                    <label for="userId">
+                        <span class="icon user-icon"></span>
+                        ID <span class="required">*</span>
+                    </label>
+                    <input type="text" id="userId" name="userId" class="form-control" value="<%= userId != null ? userId : "" %>" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="username">
+                        <span class="icon user-icon"></span>
+                        Username <span class="required">*</span>
+                    </label>
+                    <input type="text" id="username" name="username" class="form-control" value="<%= username != null ? username : "" %>" readonly>
+                </div>
             </div>
 
             <div class="form-group">
@@ -306,8 +363,7 @@
                 <textarea id="description" name="description" class="form-control" required placeholder="Describe your complaint"></textarea>
             </div>
 
-            <input type="hidden" name="status" value="Pending">
-            <input type="hidden" name="remarks" value="">
+            <input type="hidden" name="role" value="<%= username != null ? username : "" %>">
 
             <div class="button-group">
                 <button type="submit" name="action" value="create" class="btn btn-primary">Add</button>
@@ -363,6 +419,7 @@
             document.getElementById('description').value = description;
             document.getElementById('status').value = status;
             document.getElementById('remarks').value = remarks;
+            // Keep the username as is - don't clear it
         }
     </script>
 </body>

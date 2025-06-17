@@ -30,12 +30,42 @@ public class CompliantDao {
     }
 
     public List<Complain> getAllComplaints() {
+
         String sql = "SELECT * FROM complaints";
         List<Complain> complains = new ArrayList<>();
 
         try {
             Connection con = dataSource.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Complain complain = new Complain();
+                complain.setCreatedAt(rs.getString("created_at"));
+                complain.setDescription(rs.getString("description"));
+                complain.setComId(rs.getString("comId"));
+                complain.setRemarks(rs.getString("remarks"));
+                complain.setStatus(rs.getString("status"));
+                complain.setSubject(rs.getString("subject"));
+                complain.setUserId(rs.getString("user_id"));
+                complains.add(complain);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return complains;
+    }
+
+    public List<Complain> getComplaintsByUserId(String userId) {
+        String sql = "SELECT * FROM complaints WHERE user_id = ?";
+
+        List<Complain> complains = new ArrayList<>();
+
+        try {
+            Connection con = dataSource.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1,userId);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -80,7 +110,7 @@ public class CompliantDao {
 
      public boolean updateCompliant(Complain complain) {
 
-        String sql = "UPDATE complaints SET user_id = ?, subject = ?, description = ?, status = ?, remarks = ?, created_at = ? WHERE id = ?";
+        String sql = "UPDATE complaints SET user_id = ?, subject = ?, description = ?, status = ?, remarks = ?, created_at = ? WHERE comId = ?";
             try {
                 Connection con = dataSource.getConnection();
                 PreparedStatement ps = con.prepareStatement(sql);
@@ -103,7 +133,7 @@ public class CompliantDao {
 
         public boolean deleteComplain(String complain) {
 
-            String sql = "DELETE FROM complaints WHERE id = ?";
+            String sql = "DELETE FROM complaints WHERE comId = ?";
 
             try {
                 Connection connection = dataSource.getConnection();
