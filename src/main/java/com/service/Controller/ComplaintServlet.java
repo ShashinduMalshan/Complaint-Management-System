@@ -21,7 +21,10 @@ public class ComplaintServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String id = request.getParameter("id");
+        HttpSession session = request.getSession();
+        String name = (String) session.getAttribute("name");
+        String id = (String) session.getAttribute("id");
+
         List<Complain> complains = complainDao.getComplaintsByUserId(id);
         request.setAttribute("complaints", complains);
         request.getRequestDispatcher("/Complain.jsp").forward(request, response);
@@ -70,17 +73,17 @@ public class ComplaintServlet extends HttpServlet {
             response.setContentType("text/html");
 
         if (result) {
-            response.getWriter().println("<script>alert('Complaint saved successfully!'); window.location.href='submitComplaint';</script>");
+            response.getWriter().println("<script>alert('Complaint updated successfully!'); window.location.href='submitComplaint';</script>");
+
         } else {
             response.getWriter().println("<h3>complain failed!</h3>");
         }
-            System.out.println("saved");
 
 
     }
 
 
-    public void updateComplain(HttpServletRequest req, HttpServletResponse response) throws IOException {
+    public void updateComplain(HttpServletRequest req, HttpServletResponse response) throws IOException, ServletException {
 
 
          String id = req.getParameter("id");
@@ -101,6 +104,7 @@ public class ComplaintServlet extends HttpServlet {
 
         if (result) {
             response.getWriter().println("<script>alert('Complaint updated successfully!'); window.location.href='submitComplaint';</script>");
+
         } else {
             response.getWriter().println("<script>alert('Complaint update failed!'); window.location.href='submitComplaint';</script>");
         }

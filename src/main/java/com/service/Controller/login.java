@@ -25,6 +25,8 @@ public class login extends HttpServlet {
         String password = req.getParameter("password");
         String role = req.getParameter("role");
         String id;
+
+
         try {
            id  = String.valueOf(loginDao.getUserId(name,password,role));
         } catch (SQLException e) {
@@ -34,9 +36,14 @@ public class login extends HttpServlet {
         try {
             boolean result = loginDao.validateUser(name,password,role);
             System.out.println(result);
+
+            HttpSession session = req.getSession();
+            session.setAttribute("name", name);
+            session.setAttribute("id", id);
+
             if (result) {
                 if ( role.equals("employee") ){
-                    resp.sendRedirect("submitComplaint?name="+name+"&id="+id);
+                    resp.sendRedirect("submitComplaint");
 
                 }else if ( role.equals("admin") ){
                     resp.sendRedirect("admin");

@@ -321,8 +321,10 @@
             <button class="logout-btn" onclick="window.location.href='LoginPage.jsp'">Logout</button>
         </div>
         <%
-            String userId = request.getParameter("id");
-            String username = request.getParameter("name");
+//            String userId = request.getParameter("id");
+//            String username = request.getParameter("name");
+            String username = (String) session.getAttribute("name");
+            String userId = (String) session.getAttribute("id");
         %>
 
         <form method="post" action="submitComplaint">

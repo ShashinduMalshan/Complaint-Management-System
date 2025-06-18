@@ -302,9 +302,7 @@
                 width: 100%;
                 margin-bottom: 1rem;
             }
-            .delete{
-                background: linear-gradient(135deg, #e74c3c, #c0392b) !important;
-            }
+
         }
     </style>
 </head>
@@ -316,54 +314,21 @@
         </div>
 
 
-        <%--        <form method="post" action="admin">--%>
-<%--            <input type="hidden" id="id" name="id">--%>
-<%--            <input type="hidden" id="status" name="status">--%>
-<%--            <input type="hidden" id="remarks" name="remarks">--%>
+        <form method="post" action="admin">
+            <input type="hidden" id="id" name="id">
+            <input type="hidden" id="status" name="status">
+            <input type="hidden" id="remarks" name="remarks">
+            <input type="hidden" id="action" name="action">
 
-<%--            <div class="flex-group">--%>
-<%--                <div class="form-group">--%>
-<%--                    <label for="userId">--%>
-<%--                        <span class="icon user-icon"></span>--%>
-<%--                        ID <span class="required">*</span>--%>
-<%--                    </label>--%>
-<%--                    <input type="text" id="userId" name="userId" class="form-control" value="<%= userId != null ? userId : "" %>" readonly>--%>
-<%--                </div>--%>
-<%--                <div class="form-group">--%>
-<%--                    <label for="username">--%>
-<%--                        <span class="icon user-icon"></span>--%>
-<%--                        Username <span class="required">*</span>--%>
-<%--                    </label>--%>
-<%--                    <input type="text" id="username" name="username" class="form-control" value="<%= username != null ? username : "" %>" readonly>--%>
-<%--                </div>--%>
-<%--            </div>--%>
-
-<%--            <div class="form-group">--%>
-<%--                <label for="subject">--%>
-<%--                    <span class="icon subject-icon"></span>--%>
-<%--                    Subject <span class="required">*</span>--%>
-<%--                </label>--%>
-<%--                <input type="text" id="subject" name="subject" class="form-control" required placeholder="Enter complaint subject">--%>
-<%--            </div>--%>
-
-<%--            <div class="form-group">--%>
-<%--                <label for="description">--%>
-<%--                    <span class="icon description-icon"></span>--%>
-<%--                    Description <span class="required">*</span>--%>
-<%--                </label>--%>
-<%--                <textarea id="description" name="description" class="form-control" required placeholder="Describe your complaint"></textarea>--%>
-<%--            </div>--%>
-
-<%--            <input type="hidden" name="role" value="<%= username != null ? username : "" %>">--%>
 
             <div class="button-group">
-                <button type="submit" name="action" value="create" class="btn btn-primary">Add Admin</button>
+                <button type="submit" name="action" value="addAdmin" class="btn btn-primary">Add Admin</button>
                 <button class="btn-danger btn" onclick="window.location.href='LoginPage.jsp'">Logout</button>
             </div>
-<%--        </form>--%>
+        </form>
     </div>
 
-    <div class="table-container">
+        <div class="table-container">
         <div class="header">
             <h1>All Complaints</h1>
             <p>Click on a complaint to edit</p>
@@ -380,11 +345,13 @@
                 <th>Created At</th>
                 <th>Action</th>
             </tr>
+
             <%
                 List<Complain> list = (List<Complain>) request.getAttribute("complaints");
                 if (list != null) {
                     for (Complain c : list) {
             %>
+
             <tr style="cursor:pointer;"
                 onclick="fillForm('<%= c.getComId() %>','<%= c.getUserId() %>','<%= c.getSubject() %>','<%= c.getDescription() %>','<%= c.getStatus() %>','<%= c.getRemarks() %>')">
                 <td><%= c.getComId() %></td>
@@ -421,8 +388,9 @@
                 <td><%= c.getCreatedAt() %></td>
                 <td>
                     <div class="button-group">
-                        <button type="submit" name="action" value="update" class="logout-btn btn-success">Update</button>
-                        <button type="submit" name="action" value="delete" class="logout-btn btn-danger">Delete</button>
+
+                        <button type="button" class="logout-btn btn-success" onclick="updateComplaint('<%= c.getComId() %>')">Update</button>
+                        <button type="button" class="logout-btn btn-danger" onclick="deleteComplaint('<%= c.getComId() %>')">Delete</button>
                     </div>
                 </td>
             </tr>
@@ -434,14 +402,40 @@
     </div>
 
     <script>
+
         function fillForm(id, userId, subject, description, status, remarks) {
             document.getElementById('id').value = id;
-            document.getElementById('userId').value = userId;
-            document.getElementById('subject').value = subject;
-            document.getElementById('description').value = description;
             document.getElementById('status').value = status;
             document.getElementById('remarks').value = remarks;
         }
+
+        function updateComplaint(id) {
+            const statusValue = document.getElementById('status_' + id).value;
+            const remarksValue = document.getElementById('remarks_' + id).value;
+
+            document.getElementById('id').value = id;
+            document.getElementById('status').value = statusValue;
+            document.getElementById('remarks').value = remarksValue;
+            document.getElementById('action').value = 'update';
+
+            document.forms[0].submit();
+        }
+
+
+        function deleteComplaint(id) {
+            if (confirm("Are you sure you want to delete this complaint?")) {
+                const statusValue = document.getElementById('status_' + id).value;
+
+                document.getElementById('id').value = id;
+                document.getElementById('status').value = statusValue;
+                document.getElementById('action').value = 'delete';
+
+                document.forms[0].submit();
+            }
+        }
+
+
+
     </script>
 </body>
 </html>

@@ -131,6 +131,25 @@ public class CompliantDao {
             }
         }
 
+        public boolean updateState(Complain complain) {
+
+            String sql = "UPDATE complaints SET status = ?, remarks = ? WHERE comId = ?";
+                try {
+                    Connection con = dataSource.getConnection();
+                    PreparedStatement ps = con.prepareStatement(sql);
+                    ps.setString(1, complain.getStatus());
+                    ps.setString(2, complain.getRemarks());
+                    ps.setString(3, complain.getComId());
+
+
+                    return ps.executeUpdate() > 0;
+
+                }catch (Exception e) {
+                    e.printStackTrace();
+                    return false;
+                }
+        }
+
         public boolean deleteComplain(String complain) {
 
             String sql = "DELETE FROM complaints WHERE comId = ?";

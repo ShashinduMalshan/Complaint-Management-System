@@ -11,7 +11,7 @@
         <res-auth>Container</res-auth>
     </resource-ref>
    <welcome-file-list>
-    <welcome-file>LoginPage.jsp</welcome-file>  <!-- ✅ servlet URL pattern -->
+    <welcome-file>LoginPage.jsp</welcome-file>
 </welcome-file-list>
 
 </web-app>
