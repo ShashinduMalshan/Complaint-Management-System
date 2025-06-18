@@ -323,7 +323,7 @@
 
             <div class="button-group">
                 <button type="submit" name="action" value="addAdmin" class="btn btn-primary">Add Admin</button>
-                <button class="btn-danger btn" onclick="window.location.href='LoginPage.jsp'">Logout</button>
+                <button type="button" class="btn-danger btn" onclick="window.location.href='LoginPage.jsp'">Logout</button>
             </div>
         </form>
     </div>

@@ -27,34 +27,25 @@ public class login extends HttpServlet {
         String id;
 
 
-        try {
-           id  = String.valueOf(loginDao.getUserId(name,password,role));
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        id  = String.valueOf(loginDao.getUserId(name,password,role));
 
-        try {
-            boolean result = loginDao.validateUser(name,password,role);
-            System.out.println(result);
+        boolean result = loginDao.validateUser(name,password,role);
+        System.out.println(result);
 
-            HttpSession session = req.getSession();
-            session.setAttribute("name", name);
-            session.setAttribute("id", id);
+        HttpSession session = req.getSession();
+        session.setAttribute("name", name);
+        session.setAttribute("id", id);
 
-            if (result) {
-                if ( role.equals("employee") ){
-                    resp.sendRedirect("submitComplaint");
+        if (result) {
+            if ( role.equals("employee") ){
+                resp.sendRedirect("submitComplaint");
 
-                }else if ( role.equals("admin") ){
-                    resp.sendRedirect("admin");
-                }
-            } else {
-                req.setAttribute("errorMessage", "Invalid username or password");
-                req.getRequestDispatcher("/LoginPage.jsp").forward(req, resp);
+            }else if ( role.equals("admin") ){
+                resp.sendRedirect("admin");
             }
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        } else {
+            req.setAttribute("errorMessage", "Invalid username or password");
+            req.getRequestDispatcher("/LoginPage.jsp").forward(req, resp);
         }
 
 

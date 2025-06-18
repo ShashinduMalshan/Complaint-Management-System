@@ -8,6 +8,7 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class RegisterDao {
 
@@ -26,18 +27,28 @@ public class RegisterDao {
 
     public boolean saveUser(String name, String password) {
         String sql = "INSERT INTO users (name, password) VALUES (?, ?)";
+        Connection con = null;
+        PreparedStatement ps = null;
+        boolean result = false;
 
-        try  {
-            Connection con = dataSource.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql);
+        try {
+            con = dataSource.getConnection();
+            ps = con.prepareStatement(sql);
             ps.setString(1, name);
             ps.setString(2, password);
 
-            return ps.executeUpdate() > 0;
+            result = ps.executeUpdate() > 0;
 
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+        } finally {
+            try {
+                if (ps != null) ps.close();
+                if (con != null) con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
+        return result;
     }
 }

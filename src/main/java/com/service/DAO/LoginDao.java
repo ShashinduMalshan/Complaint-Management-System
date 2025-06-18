@@ -26,42 +26,68 @@ public class LoginDao {
             }
     }
 
-        public boolean validateUser(String name, String password,String role) throws SQLException {
+        public boolean validateUser(String name, String password, String role) {
         String sql = "SELECT * FROM users WHERE name = ? AND password = ? AND role = ?";
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        boolean result = false;
 
-        Connection connection =dataSource.getConnection();
-        PreparedStatement ps = connection.prepareStatement(sql);
-        ps.setString(1, name);
-        ps.setString(2, password);
-        ps.setString(3, role);
+        try {
+            connection = dataSource.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, name);
+            ps.setString(2, password);
+            ps.setString(3, role);
 
-            boolean result = ps.executeQuery().next();
-
-            if (result) {
-                return true;
-            }else {
-                return false;
+            rs = ps.executeQuery();
+            result = rs.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }
+        return result;
+    }
 
 
-    public int getUserId(String name, String password, String role) throws SQLException {
+    public int getUserId(String name, String password, String role) {
         String sql = "SELECT id FROM users WHERE name = ? AND password = ? AND role = ?";
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        int userId = 0;
 
-        Connection connection = dataSource.getConnection();
-        PreparedStatement ps = connection.prepareStatement(sql);
-        ps.setString(1, name);
-        ps.setString(2, password);
-        ps.setString(3, role);
+        try {
+            connection = dataSource.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, name);
+            ps.setString(2, password);
+            ps.setString(3, role);
 
-        ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
 
-        if (rs.next()) {
-            int userId = rs.getInt("id");
-            return userId;
+            if (rs.next()) {
+                userId = rs.getInt("id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
-
-        return 0;
+        return userId;
     }
 
 }

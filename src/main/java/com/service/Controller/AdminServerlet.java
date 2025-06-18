@@ -39,9 +39,6 @@ public class AdminServerlet extends HttpServlet {
             case "update":
                 updateComplainProcess(req,resp);
                 break;
-            case "addAdmin":
-                addAdmin();
-                break;
 
             case "delete":
                 deleteComplainProcess(req,resp);
@@ -57,8 +54,7 @@ public class AdminServerlet extends HttpServlet {
 
     }
 
-    private void addAdmin() {
-    }
+
 
 
     private void updateComplainProcess(HttpServletRequest req, HttpServletResponse resp) throws IOException {
