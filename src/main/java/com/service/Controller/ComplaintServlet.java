@@ -21,13 +21,23 @@ public class ComplaintServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        HttpSession session = request.getSession();
-        String name = (String) session.getAttribute("name");
-        String id = (String) session.getAttribute("id");
 
-        List<Complain> complains = complainDao.getComplaintsByUserId(id);
-        request.setAttribute("complaints", complains);
-        request.getRequestDispatcher("/Complain.jsp").forward(request, response);
+        try {
+            HttpSession session = request.getSession();
+            String name = (String) session.getAttribute("name");
+            String id = (String) session.getAttribute("id");
+
+            if (id == null) {
+                request.getRequestDispatcher("/LoginPage.jsp").forward(request, response);
+                return;
+            }
+
+            List<Complain> complains = complainDao.getComplaintsByUserId(id);
+            request.setAttribute("complaints", complains);
+            request.getRequestDispatcher("/Complain.jsp").forward(request, response);
+        } catch (Exception e) {
+            request.getRequestDispatcher("/LogingPage.jsp").forward(request, response);
+        }
 
     }
 
@@ -73,11 +83,12 @@ public class ComplaintServlet extends HttpServlet {
             response.setContentType("text/html");
 
         if (result) {
-            response.getWriter().println("<script>alert('Complaint updated successfully!'); window.location.href='submitComplaint';</script>");
-
+            req.getSession().setAttribute("swal", "success|Complaint Create!|Your complaint has been successfully Create.");
         } else {
-            response.getWriter().println("<h3>complain failed!</h3>");
+            req.getSession().setAttribute("swal", "error|Failed!|Complaint could not be Create.");
         }
+        
+        response.sendRedirect(req.getContextPath() + "/submitComplaint");
 
 
     }
@@ -94,6 +105,7 @@ public class ComplaintServlet extends HttpServlet {
 
         if (!status.equals("Pending")) {
             response.getWriter().println("<script>alert('You cannot update complaint in " + status + " status!'); window.location.href='submitComplaint';</script>");
+//            req.getSession().setAttribute("swal", "error|Complaint Updated!|You cannot update complaint in status!");
             return;
         }
 
@@ -103,11 +115,11 @@ public class ComplaintServlet extends HttpServlet {
         response.setContentType("text/html");
 
         if (result) {
-            response.getWriter().println("<script>alert('Complaint updated successfully!'); window.location.href='submitComplaint';</script>");
-
+            req.getSession().setAttribute("swal", "success|Complaint Updated!|Your complaint has been successfully updated.");
         } else {
-            response.getWriter().println("<script>alert('Complaint update failed!'); window.location.href='submitComplaint';</script>");
+            req.getSession().setAttribute("swal", "error|Failed!|Complaint could not be Update.");
         }
+            response.sendRedirect(req.getContextPath() + "/submitComplaint");
 
     }
 
@@ -124,9 +136,11 @@ public class ComplaintServlet extends HttpServlet {
         }
         boolean result = complainDao.deleteComplain(id);
         if (result) {
-            response.getWriter().println("<script>alert('Complaint deleted successfully!'); window.location.href='submitComplaint';</script>");
+            req.getSession().setAttribute("swal", "success|Complaint Deleted!|Your complaint has been successfully deleted.");
         } else {
-            response.getWriter().println("<script>alert('Complaint deletion failed!'); window.location.href='submitComplaint';</script>");
+            req.getSession().setAttribute("swal", "error|Failed!|Complaint could not be delete.");
         }
+        response.sendRedirect(req.getContextPath() + "/submitComplaint");
+
     }
 }

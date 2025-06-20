@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context path="/">
-    <Resource name="jdbc/pool" 
-              auth="Container" 
+
+      <Resource name="jdbc/pool"
+              auth="Container"
               type="javax.sql.DataSource"
               driverClassName="com.mysql.cj.jdbc.Driver"
-              url="jdbc:mysql://localhost:3306/complaint_management_db?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=UTC"
+              url="jdbc:mysql://localhost:3306/complaint_management_db"
               username="root"
               password="Ijse@1234"
-              maxTotal="100"
-              maxIdle="30"
+              maxTotal="20"
+              maxIdle="10"
               maxWaitMillis="10000"
-              validationQuery="SELECT 1"
-              testOnBorrow="true"/>
+              initialSize="5"
+              factory="org.apache.tomcat.dbcp.dbcp2.BasicDataSourceFactory"/>
 </Context>

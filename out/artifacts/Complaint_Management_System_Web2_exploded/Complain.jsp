@@ -368,7 +368,7 @@
             <div class="button-group">
                 <button type="submit" name="action" value="create" class="btn btn-primary">Add</button>
                 <button type="submit" name="action" value="update" class="btn btn-primary">Update</button>
-                <button type="submit" name="action" value="delete" class="btn btn-danger" onclick="return confirm('Are you sure to delete?');">Delete</button>
+                <button type="submit" name="action" value="delete" class="btn btn-danger">Delete</button>
             </div>
         </form>
     </div>
@@ -382,7 +382,6 @@
         <table>
             <tr>
                 <th>ID</th>
-                <th>User ID</th>
                 <th>Subject</th>
                 <th>Description</th>
                 <th>Status</th>
@@ -397,7 +396,6 @@
             <tr style="cursor:pointer;"
                 onclick="fillForm('<%= c.getComId() %>','<%= c.getUserId() %>','<%= c.getSubject() %>','<%= c.getDescription() %>','<%= c.getStatus() %>','<%= c.getRemarks() %>')">
                 <td><%= c.getComId() %></td>
-                <td><%= c.getUserId() %></td>
                 <td><%= c.getSubject() %></td>
                 <td><%= c.getDescription() %></td>
                 <td><%= c.getStatus() %></td>
@@ -410,6 +408,27 @@
             %>
         </table>
     </div>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+            <%
+                String swalMsg = (String) session.getAttribute("swal");
+                if (swalMsg != null) {
+                    session.removeAttribute("swal");
+                    String[] parts = swalMsg.split("\\|");
+                    String icon = parts.length > 0 ? parts[0] : "info";
+                    String title = parts.length > 1 ? parts[1] : "";
+                    String text = parts.length > 2 ? parts[2] : "";
+            %>
+            <script>
+                Swal.fire({
+                    icon: "<%= icon %>",
+                    title: "<%= title %>",
+                    text: "<%= text %>",
+                    timer: "<%= "success".equals(icon) ? "2000" : "null" %>",
+                    showConfirmButton: <%= "success".equals(icon) ? "false" : "true" %>
+                });
+            </script>
+            <% } %>
 
     <script>
         function fillForm(id, userId, subject, description, status, remarks) {
